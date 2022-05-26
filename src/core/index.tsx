@@ -62,7 +62,13 @@ export class Core {
     this.providerController.on(SELECT_EVENT, this.onProviderSelect);
 
     this.userOptions = this.providerController.getUserOptions();
-    this.renderModal();
+
+    if (
+        this.userOptions &&
+        this.userOptions.length > 0
+    ) {
+        this.renderModal();
+    }
   }
 
   get cachedProvider(): string {
