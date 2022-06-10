@@ -139,11 +139,10 @@ export class ProviderController {
 
       defaultProviderList.forEach((id: string) => {
         if (id !== INJECTED_PROVIDER_ID) {
-          providerList.push(id);
-          /*const result = this.shouldDisplayProvider(id);
+          const result = this.shouldDisplayProvider(id);
           if (result) {
             providerList.push(id);
-          }*/
+          }
         }
       });
     }
@@ -198,19 +197,14 @@ export class ProviderController {
     connector: (providerPackage: any, opts: any) => Promise<any>
   ) => {
     try {
-      if ( !this.shouldDisplayProvider(id) ) {
-        // @todo:: edit here
-        throw new Error('Provider not found.');
-      } else {
-        this.eventController.trigger(SELECT_EVENT, id);
-        const providerPackage = this.getProviderOption(id, "package");
-        const providerOptions = this.getProviderOption(id, "options");
-        const opts = { network: this.network || undefined, ...providerOptions };
-        const provider = await connector(providerPackage, opts);
-        this.eventController.trigger(CONNECT_EVENT, provider);
-        if (this.shouldCacheProvider && this.cachedProvider !== id) {
-          this.setCachedProvider(id);
-        }
+      this.eventController.trigger(SELECT_EVENT, id);
+      const providerPackage = this.getProviderOption(id, "package");
+      const providerOptions = this.getProviderOption(id, "options");
+      const opts = { network: this.network || undefined, ...providerOptions };
+      const provider = await connector(providerPackage, opts);
+      this.eventController.trigger(CONNECT_EVENT, provider);
+      if (this.shouldCacheProvider && this.cachedProvider !== id) {
+        this.setCachedProvider(id);
       }
     } catch (error) {
       this.eventController.trigger(ERROR_EVENT, error);
