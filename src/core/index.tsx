@@ -79,6 +79,10 @@ export class Core {
 
   public connect = (): Promise<any> =>
     new Promise(async (resolve, reject) => {
+
+
+      console.log('dddddwfre erfef ');
+
       this.on(CONNECT_EVENT, provider => resolve(provider));
       this.on(ERROR_EVENT, error => reject(error));
       this.on(CLOSE_EVENT, () => reject("Modal closed by user"));
@@ -87,6 +91,9 @@ export class Core {
 
   public connectTo = (id: string): Promise<any> =>
     new Promise(async (resolve, reject) => {
+
+      console.log('cccccc');
+
       this.on(CONNECT_EVENT, provider => resolve(provider));
       this.on(ERROR_EVENT, error => reject(error));
       this.on(CLOSE_EVENT, () => reject("Modal closed by user"));
